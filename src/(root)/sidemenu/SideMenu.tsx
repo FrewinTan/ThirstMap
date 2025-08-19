@@ -39,7 +39,7 @@ const SideMenu = ({
           <div className="mt-3 transition-all duration-150">
             <button className="flex flex-row items-center">
               <img src={icons.pencil} className="w-[20px] h-[20px]" />
-              <h1 className="text-[16px] font-[Inter]">Crowdsource</h1>
+              <h1 className="sm:text-[16px] text-[12px] font-[Inter]">Crowdsource</h1>
             </button>
             <hr className="w-9/10 mx-auto"></hr>
           </div>
