@@ -36,7 +36,7 @@ Below are some key features of **ThirstMap**:
 
 1. **Icons on Map**  
    Displays icons denoting the locations of vending machines stored in **Neon PostgreSQL**.  
-   &nbsp;&nbsp;<img src="/public/Image_1.png" alt="Icons on Map" width="300"/>
+   <img src="/public/Image_1.png" alt="Icons on Map" width="300"/>
 
 2. **Autocomplete Search**  
    Helps users quickly enter their location by providing accurate suggestions.  
