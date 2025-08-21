@@ -36,27 +36,27 @@ Below are some key features of **ThirstMap**:
 
 1. **Icons on Map**  
    Displays icons denoting the locations of vending machines stored in **Neon PostgreSQL**.  
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_1.png" alt="Icons on Map" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_1.png" alt="Icons on Map" width="300"/>
 
 2. **Autocomplete Search**  
    Helps users quickly enter their location by providing accurate suggestions.  
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_2.png" alt="Autocomplete Search" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_2.png" alt="Autocomplete Search" width="300"/>
 
 3. **Find Nearest Vending Machine**  
    With one click, the app computes the nearest vending machine and displays the route as a polyline on the map.  
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_3.png" alt="Find Nearest Vending Machine" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_3.png" alt="Find Nearest Vending Machine" width="300"/>
 
 4. **Directions Panel**  
    An animated sliding modal shows the duration, distance, and step-by-step directions to the destination.  
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_4.png" alt="Directions Panel" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_4.png" alt="Directions Panel" width="300"/>
 
 5. **Vending Machine Information**  
    Provides details such as type, location, opening hours, and payment methods. Users can also suggest edits and upload photos for provide updated information.
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_5.png" alt="Vending Machine Information" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_5.png" alt="Vending Machine Information" width="300"/>
 
 6. **Suggest an Edit & Add Photos**  
    Users can submit feedback and images, handled securely through **Formspree**.  
-   &nbsp;&nbsp;&nbsp;<img src="/public/Image_6.png" alt="Vending Machine Information" width="300"/>
+   &nbsp;&nbsp;<img src="/public/Image_6.png" alt="Vending Machine Information" width="300"/>
 
 ---
 
