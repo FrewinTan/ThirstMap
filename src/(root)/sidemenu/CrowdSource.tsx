@@ -91,6 +91,7 @@ const CrowdSource = () => {
   return (
     <div className="h-dvh w-dvw justify-center items-center flex">
       <form onSubmit={handleSubmit} method="POST" encType="multipart/form-data">
+			<h1 className="font-[Inter] mb-3">Help us update the website with the latest information.</h1>
         <div className="border border-black border-solid rounded-[10px] p-5">
           <div>
             <label

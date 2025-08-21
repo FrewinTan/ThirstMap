@@ -93,9 +93,10 @@ const Vending = ({
   return (
     <div className="w-full h-full z-40 left-0 top-0 absolute">
       <div
-        className={`fixed inset-0  rounded-t-[20px] bg-white z-30 ${
-          dragging ? "" : "transform transition-transform 2s ease out "
-        } ${position != modalCollapsed ? "overflow-y-scroll" : ""}`}
+        className={`fixed inset-0  rounded-t-[20px] bg-white z-30 
+				${dragging ? "" : "transform transition-transform 2s ease-out"} 
+				${position != modalCollapsed ? "overflow-y-scroll" : ""}`
+				}
         style={{
           transform: `translateY(${position}px)`,
         }}
