@@ -68,7 +68,7 @@ const SearchBar = ({
   const handleSearchBarFocus = () => {
     setIsSuggestionVisible(true);
   };
-	console.log(routeDestination)
+  console.log(routeDestination);
   return (
     <>
       {routeDestination ? (
@@ -136,7 +136,7 @@ const SearchBar = ({
             </div>
 
             {isSuggestionVisible && (
-              <div className="bg-white rounded-b-[10px]">
+              <div className={`bg-white rounded-b-[10px] ${bounceStyle}`}>
                 <ul>
                   {suggestion.suggestion.length > 0 &&
                     suggestion.suggestion.map((item, index) => {
