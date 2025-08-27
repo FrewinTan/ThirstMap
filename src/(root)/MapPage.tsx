@@ -19,17 +19,20 @@ const MapPage = () => {
   const map_id = import.meta.env.VITE_map_id;
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
+  // Get user permission
+  const [locationError, setLocationError] = useState<number>();
+  useEffect(() => {
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: "geolocation" }).then((result) => {
+        result.state == "denied" ? setLocationError(1) : "";
+      });
+    }
+  }, []);
+
   // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
   >("");
-  const [locationError, setLocationError] = useState<number>();
-
-  if (navigator.permissions) {
-    navigator.permissions.query({ name: "geolocation" }).then((result) => {
-      result.state == "denied" ? setLocationError(1) : "";
-    });
-  }
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -39,6 +42,7 @@ const MapPage = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+					
           setUserLocation(pos);
         },
         (error) => {
