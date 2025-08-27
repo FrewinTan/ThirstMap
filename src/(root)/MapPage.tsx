@@ -24,6 +24,13 @@ const MapPage = () => {
     google.maps.LatLngLiteral | string
   >("");
   const [locationError, setLocationError] = useState<number>();
+
+  if (navigator.permissions) {
+    navigator.permissions.query({ name: "geolocation" }).then((result) => {
+      result.state == "denied" ? setLocationError(1) : "";
+    });
+  }
+
   const getUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
