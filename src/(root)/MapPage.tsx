@@ -23,15 +23,15 @@ const MapPage = () => {
   const [locationError, setLocationError] = useState<number>();
 
   useEffect(() => {
-    if (navigator.permissions) {
+    if (navigator.permissions || !navigator.geolocation) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        if (result.state === "denied") {
+        if (result.state == "denied") {
           setLocationError(1);
         }
       });
     }
   }, []);
-	
+
   // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
