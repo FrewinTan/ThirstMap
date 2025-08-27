@@ -20,24 +20,27 @@ const MapPage = () => {
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
   // Get user permission
-  const [locationError, setLocationError] = useState<number>();
+  const [locationError, setLocationError] = useState<number | null>(null);
 
   useEffect(() => {
-    if (navigator.permissions || !navigator.geolocation) {
+    if (navigator.permissions) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        if (result.state == "denied") {
-          setLocationError(1);
+        if (result.state === "denied") {
+          setLocationError(1); // previously denied
+        } else if (result.state === "granted") {
+          setLocationError(0);
+        } else {
+          setLocationError(null); // prompt will show
         }
       });
     }
   }, []);
-
   // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
   >("");
 
-  const getUserLocation = async () => {
+  const getUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
@@ -46,9 +49,14 @@ const MapPage = () => {
             lng: position.coords.longitude,
           };
           setUserLocation(pos);
+          setLocationError(0);
         },
         (error) => {
-          setLocationError(error.code);
+          if (error.code === error.PERMISSION_DENIED) {
+            setLocationError(1);
+          } else {
+            setLocationError(2);
+          }
           console.log(error);
         }
       );
@@ -73,7 +81,7 @@ const MapPage = () => {
   const [isBouncing, setIsBouncing] = useState(false);
   const bounce = () => {
     if (userLocation) return;
-    if (locationError == 1) {
+    if (locationError === 1) {
       setIsBouncing(true);
       setTimeout(() => setIsBouncing(false), 3500);
     }
