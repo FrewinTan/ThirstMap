@@ -72,10 +72,5 @@ export default function Directions({
   }, [route, loading]);
 
   if (!route || loading) return null;
-  return (
-    <>
-      <div className="fixed inset-0 z-10 bg-white/0" />
-      <DirectionPanel route={route} clearEverything={clearEverything} />
-    </>
-  );
+  return <DirectionPanel route={route} clearEverything={clearEverything} />;
 }
