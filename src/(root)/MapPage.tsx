@@ -11,6 +11,7 @@ import { useVendingInfo, useVendingLocation } from "../lib/get";
 import { VendingDataType } from "../../types/types";
 import SideMenu from "./sidemenu/SideMenu";
 import Directions from "../components/functions/Directions";
+import CrowdSource from "./sidemenu/CrowdSource";
 
 const MapPage = () => {
   // .env keys
@@ -22,6 +23,7 @@ const MapPage = () => {
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
   >("");
+  const [locationError, setLocationError] = useState<number>();
   const getUserLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -33,6 +35,7 @@ const MapPage = () => {
           setUserLocation(pos);
         },
         (error) => {
+          setLocationError(error.code);
           console.log(error);
         }
       );
@@ -41,15 +44,13 @@ const MapPage = () => {
     }
   };
 
-  // User location
-  const locationToBeUsed = userLocation != null ? userLocation : userLocation;
-
   const [nearestButtonPressed, setNearestButtonPressed] = useState(false);
   const [toggleVendingPage, setToggleVendingPage] = useState(false);
   const [toggleSideMenu, setToggleSideMenu] = useState(false);
   const [searchBarPressed, setSearchBarPressed] = useState(false);
   const [routeDestination, setRouteDestination] = useState<string>("");
   const [clearEverything, setClearEverything] = useState(false);
+  const [toggleCrowdSource, setToggleCrowdSource] = useState(false);
 
   // useState for Origin and Destination for Directions
   const [destination, setDestination] =
@@ -58,7 +59,8 @@ const MapPage = () => {
   // Bounce Animation
   const [isBouncing, setIsBouncing] = useState(false);
   const bounce = () => {
-    if (userLocation == null) {
+    if (userLocation) return;
+    if (locationError == 1) {
       setIsBouncing(true);
       setTimeout(() => setIsBouncing(false), 3500);
     }
@@ -111,9 +113,7 @@ const MapPage = () => {
 
   return (
     <>
-      <APIProvider
-        apiKey={google_api}
-      >
+      <APIProvider apiKey={google_api}>
         <Map
           className="w-dvw h-dvh z-0"
           defaultZoom={15}
@@ -145,7 +145,11 @@ const MapPage = () => {
           <SideMenu
             onOpen={toggleSideMenu}
             onClose={() => setToggleSideMenu(!toggleSideMenu)}
+            crowdSource={setToggleCrowdSource}
           />
+          {toggleCrowdSource && (
+            <CrowdSource crowdSource={setToggleCrowdSource} />
+          )}
           <GeoCoder
             enteredLocation={userLocation}
             searchBarPressed={searchBarPressed}
@@ -158,7 +162,7 @@ const MapPage = () => {
           />
           {destination && clearEverything != true && (
             <Directions
-              origin={locationToBeUsed}
+              origin={userLocation}
               destination={destination}
               routeDestination={(route) => setRouteDestination(route)}
               clearEverything={setClearEverything}

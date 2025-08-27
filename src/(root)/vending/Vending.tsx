@@ -32,25 +32,29 @@ const Vending = ({
   const [position, setPosition] = useState(modalCollapsed);
   const modalRef = useRef<HTMLDivElement | null>(null);
 
-  const yRef = useRef(modalCollapsed);
+  const yRef = useRef(modalCollapsed); //Tracks position of modal
+  const startPos = useRef(modalCollapsed); //Tracks initial position of modal
   const dragStartY = useRef(0);
 
   const startDrag = (e: React.MouseEvent | React.TouchEvent) => {
     setDragging(true);
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     dragStartY.current = clientY;
+    startPos.current = yRef.current;
   };
 
   const handleDrag = (e: MouseEvent | TouchEvent) => {
     if (dragging && modalRef.current) {
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      const deltaY = clientY - dragStartY.current;
-      const constrainedPosition = Math.max(
-        modalExpanded,
-        Math.min(window.innerHeight, yRef.current + deltaY) - peekHeight
+      const delta = clientY - dragStartY.current;
+      const newPos = startPos.current + delta;
+
+      const constrainedPosition = Math.min(
+        Math.max(newPos, modalExpanded),
+        modalCollapsed
       );
-      yRef.current = constrainedPosition;
       setPosition(constrainedPosition);
+      yRef.current = constrainedPosition;
     }
   };
 
@@ -60,7 +64,9 @@ const Vending = ({
       yRef.current < (modalCollapsed + modalExpanded) / 2
         ? modalExpanded
         : modalCollapsed;
+
     setPosition(snapTo);
+    yRef.current = snapTo;
   };
 
   useEffect(() => {
@@ -94,9 +100,8 @@ const Vending = ({
     <div className="w-full h-full z-40 left-0 top-0 absolute">
       <div
         className={`fixed inset-0  rounded-t-[20px] bg-white z-30 
-				${dragging ? "" : "transform transition-transform 2s ease-out"} 
-				${position != modalCollapsed ? "overflow-y-scroll" : ""}`
-				}
+				${dragging ? "" : "will-change-transform transition-transform duration-200 ease-out"} 
+				${position == modalExpanded ? "overflow-y-auto" : ""}`}
         style={{
           transform: `translateY(${position}px)`,
         }}

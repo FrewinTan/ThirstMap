@@ -68,7 +68,7 @@ const SearchBar = ({
   const handleSearchBarFocus = () => {
     setIsSuggestionVisible(true);
   };
-
+	console.log(routeDestination)
   return (
     <>
       {routeDestination ? (

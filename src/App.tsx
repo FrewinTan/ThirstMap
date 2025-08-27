@@ -14,7 +14,6 @@ const App = () => {
       <FormspreeProvider>
         <Routes>
           <Route path="/" element={<MapPage />} />
-          <Route path="/CrowdSource" element={<CrowdSource />} />
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} />
       </FormspreeProvider>

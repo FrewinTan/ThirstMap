@@ -17,24 +17,28 @@ const DirectionPanel = ({
   const modalRef = useRef<HTMLDivElement | null>(null);
 
   const yRef = useRef(modalCollapsed);
+  const startPos = useRef(modalCollapsed);
   const dragStartY = useRef(0);
 
   const startDrag = (e: React.MouseEvent | React.TouchEvent) => {
     setDragging(true);
     const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
     dragStartY.current = clientY;
+    startPos.current = yRef.current;
   };
 
   const handleDrag = (e: MouseEvent | TouchEvent) => {
     if (dragging && modalRef.current) {
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-      const deltaY = clientY - dragStartY.current;
-      const constrainedPosition = Math.max(
-        30,
-        Math.min(window.innerHeight, yRef.current + deltaY) - peekHeight
+      const delta = clientY - dragStartY.current;
+      const newPos = startPos.current + delta;
+
+      const constrainedPosition = Math.min(
+        Math.max(newPos, modalExpanded),
+        modalCollapsed
       );
-      yRef.current = constrainedPosition;
       setPosition(constrainedPosition);
+      yRef.current = constrainedPosition;
     }
   };
 
@@ -45,6 +49,7 @@ const DirectionPanel = ({
         ? modalExpanded
         : modalCollapsed;
     setPosition(snapTo);
+    yRef.current = snapTo;
   };
 
   useEffect(() => {
@@ -66,13 +71,11 @@ const DirectionPanel = ({
     }
   }, [dragging]);
 
-  const handleOverflow = position !== modalCollapsed ? "overflow-y-scroll" : "";
-
   return (
     <div
-      className={`fixed inset-0 transition-transform rounded-t-[20px] bg-white z-30 ${
-        dragging ? "none" : "transform 2s ease out "
-      } ${handleOverflow}`}
+      className={`fixed inset-0 rounded-t-[20px] bg-white z-30 
+			${dragging ? "none" : "will-change-transform transition-transform duration-200 ease-out"} 
+			${position == modalExpanded ? "overflow-y-auto" : ""}`}
       style={{
         transform: `translateY(${position}px)`,
       }}
