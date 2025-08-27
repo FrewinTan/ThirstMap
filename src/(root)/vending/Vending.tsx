@@ -24,7 +24,7 @@ const Vending = ({
 }) => {
   const [activeTabs, setActiveTabs] = useState<1 | 2 | 3 | 4>(1);
 
-  const peekHeight = 300;
+  const peekHeight = 200;
   const modalCollapsed = window.innerHeight - peekHeight;
   const modalExpanded: number = 30;
 

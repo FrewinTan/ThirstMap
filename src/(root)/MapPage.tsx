@@ -1,4 +1,4 @@
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
 import Marker from "../components/Marker";
@@ -20,17 +20,17 @@ const MapPage = () => {
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
   // Get user permission
+  const map = useMap();
   const [locationError, setLocationError] = useState<number>();
   useEffect(() => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        console.log(result.state);
         if (result.state === "denied") {
           setLocationError(1);
         }
       });
     }
-  }, []);
+  }, [map]);
 
   // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
@@ -45,7 +45,6 @@ const MapPage = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-
           setUserLocation(pos);
         },
         (error) => {
@@ -66,7 +65,6 @@ const MapPage = () => {
   const [clearEverything, setClearEverything] = useState(false);
   const [toggleCrowdSource, setToggleCrowdSource] = useState(false);
 
-
   // useState for Origin and Destination for Directions
   const [destination, setDestination] =
     useState<google.maps.LatLngLiteral | null>();
@@ -74,7 +72,7 @@ const MapPage = () => {
   // Bounce Animation
   const [isBouncing, setIsBouncing] = useState(false);
   const bounce = () => {
-		if(userLocation) return
+    if (userLocation) return;
     if (locationError == 1) {
       setIsBouncing(true);
       setTimeout(() => setIsBouncing(false), 3500);
