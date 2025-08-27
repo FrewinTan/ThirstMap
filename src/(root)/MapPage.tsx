@@ -141,14 +141,16 @@ const MapPage = () => {
             vendingData={vendingData}
           />
           {toggleVendingPage && (
-            <Vending
-              onClose={() => setToggleVendingPage(!toggleVendingPage)}
-              vendingData={vendingData[markerIndex]}
-              vendingLocation={vendingLocation[markerIndex]}
-              locationToBeUsed={userLocation}
-              goButtonPressed={goButtonPressed}
-            />
-          )}
+              <div className="fixed inset-0 z-10 bg-white/0" />
+            ) && (
+              <Vending
+                onClose={() => setToggleVendingPage(!toggleVendingPage)}
+                vendingData={vendingData[markerIndex]}
+                vendingLocation={vendingLocation[markerIndex]}
+                locationToBeUsed={userLocation}
+                goButtonPressed={goButtonPressed}
+              />
+            )}
           <SideMenu
             onOpen={toggleSideMenu}
             onClose={() => setToggleSideMenu(!toggleSideMenu)}

@@ -74,10 +74,10 @@ const Vending = ({
       const mouseMove = (e: MouseEvent | TouchEvent) => handleDrag(e);
       const mouseUp = () => stopDrag();
 
-      document.addEventListener("mousemove", mouseMove, { passive: true });
-      document.addEventListener("mouseup", mouseUp, { passive: true });
-      document.addEventListener("touchmove", mouseMove, { passive: true });
-      document.addEventListener("touchend", mouseUp, { passive: true });
+      document.addEventListener("mousemove", mouseMove);
+      document.addEventListener("mouseup", mouseUp);
+      document.addEventListener("touchmove", mouseMove);
+      document.addEventListener("touchend", mouseUp);
 
       return () => {
         document.removeEventListener("mousemove", mouseMove);
@@ -86,6 +86,26 @@ const Vending = ({
         document.removeEventListener("touchend", mouseUp);
       };
     }
+  }, [dragging]);
+
+  useEffect(() => {
+    if (dragging) {
+      document.body.style.overflow = "hidden";
+      modalRef.current?.classList.add("modal-dragging");
+    } else {
+      document.body.style.overflow = "";
+      modalRef.current?.classList.remove("modal-dragging");
+    }
+  }, [dragging]);
+
+  useEffect(() => {
+    const preventTouch = (e: TouchEvent) => {
+      if (dragging) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("touchmove", preventTouch, { passive: false });
+    return () => window.removeEventListener("touchmove", preventTouch);
   }, [dragging]);
 
   // Get images
@@ -100,8 +120,12 @@ const Vending = ({
     <div className="w-full h-full z-40 left-0 top-0 absolute">
       <div
         className={`fixed inset-0  rounded-t-[20px] bg-white z-30 
-				${dragging ? "" : "will-change-transform transition-transform duration-200 ease-out"} 
-				${position == modalExpanded ? "overflow-y-auto" : ""}`}
+				${
+          dragging
+            ? ""
+            : "will-change-transform transition-transform duration-200 ease-out"
+        } 
+				${position == modalExpanded ? "overflow-y-auto no-scrollbar" : ""}`}
         style={{
           transform: `translateY(${position}px)`,
         }}

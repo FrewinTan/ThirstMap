@@ -3,3 +3,8 @@
 body::after {
   background-color: transparent;
 }
+
+.modal-dragging {
+  touch-action: none;
+  overscroll-behavior: contain;
+}
