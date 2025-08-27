@@ -84,6 +84,7 @@ const DirectionPanel = ({
   useEffect(() => {
     const preventTouch = (e: TouchEvent) => {
       if (dragging) {
+				e.stopPropagation()
         e.preventDefault();
       }
     };
@@ -92,9 +93,6 @@ const DirectionPanel = ({
   }, [dragging]);
 
   return (
-    <>
-      <div className="fixed inset-0 z-20 bg-white/0" />
-
       <div
         className={`fixed inset-0 rounded-t-[20px] bg-white z-30 
 				${
@@ -153,7 +151,6 @@ const DirectionPanel = ({
           ))}
         </ul>
       </div>
-    </>
   );
 };
 
