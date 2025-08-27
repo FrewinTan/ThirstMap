@@ -1,4 +1,4 @@
-import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
 import Marker from "../components/Marker";
@@ -20,8 +20,8 @@ const MapPage = () => {
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
   // Get user permission
-  const map = useMap();
   const [locationError, setLocationError] = useState<number>();
+
   useEffect(() => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
@@ -30,14 +30,14 @@ const MapPage = () => {
         }
       });
     }
-  }, [map]);
-
+  }, []);
+	
   // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
   >("");
 
-  const getUserLocation = () => {
+  const getUserLocation = async () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
