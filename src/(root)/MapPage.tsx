@@ -24,7 +24,10 @@ const MapPage = () => {
   useEffect(() => {
     if (navigator.permissions) {
       navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        result.state == "denied" ? setLocationError(1) : "";
+        console.log(result.state);
+        if (result.state === "denied") {
+          setLocationError(1);
+        }
       });
     }
   }, []);
@@ -42,7 +45,7 @@ const MapPage = () => {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-					
+
           setUserLocation(pos);
         },
         (error) => {
@@ -58,10 +61,11 @@ const MapPage = () => {
   const [nearestButtonPressed, setNearestButtonPressed] = useState(false);
   const [toggleVendingPage, setToggleVendingPage] = useState(false);
   const [toggleSideMenu, setToggleSideMenu] = useState(false);
-  const [searchBarPressed, setSearchBarPressed] = useState(false);
+  const [searchBarPressed, setSearchBarPressed] = useState<number>(0);
   const [routeDestination, setRouteDestination] = useState<string>("");
   const [clearEverything, setClearEverything] = useState(false);
   const [toggleCrowdSource, setToggleCrowdSource] = useState(false);
+
 
   // useState for Origin and Destination for Directions
   const [destination, setDestination] =
@@ -70,7 +74,7 @@ const MapPage = () => {
   // Bounce Animation
   const [isBouncing, setIsBouncing] = useState(false);
   const bounce = () => {
-    if (userLocation) return;
+		if(userLocation) return
     if (locationError == 1) {
       setIsBouncing(true);
       setTimeout(() => setIsBouncing(false), 3500);
@@ -102,13 +106,6 @@ const MapPage = () => {
       setVendingLocation(vendingLocation1);
     }
   }, [vendingLocation1]);
-
-  // useEffect for Search Button
-  useEffect(() => {
-    setTimeout(() => {
-      setSearchBarPressed(false);
-    }, 50);
-  }, [searchBarPressed]);
 
   // Go button presssed
   const goButtonPressed = (location: google.maps.LatLngLiteral) => {
@@ -184,10 +181,9 @@ const MapPage = () => {
           <SearchBar
             isBouncing={isBouncing}
             routeDestination={routeDestination}
-            onClick={() => setToggleVendingPage(!toggleVendingPage)}
             toggleSideMenu={() => setToggleSideMenu(!toggleSideMenu)}
             pressed={() => {
-              setSearchBarPressed(!searchBarPressed);
+              setSearchBarPressed(searchBarPressed + 1);
               bounce();
             }}
             enteredLocation={setUserLocation}

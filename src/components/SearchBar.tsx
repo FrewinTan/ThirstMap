@@ -6,7 +6,6 @@ import Control from "./Control";
 const SearchBar = ({
   isBouncing,
   routeDestination,
-  onClick,
   toggleSideMenu,
   pressed,
   enteredLocation,
@@ -14,7 +13,6 @@ const SearchBar = ({
 }: {
   isBouncing: boolean;
   routeDestination: string;
-  onClick: () => void;
   toggleSideMenu: () => void;
   pressed: () => void;
   enteredLocation: (text: string) => void;
@@ -55,9 +53,10 @@ const SearchBar = ({
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  const roundedBorder = !isSuggestionVisible
-    ? "rounded-[10px]"
-    : "rounded-t-[10px]";
+  const roundedBorder =
+    !isSuggestionVisible && textEntered == ""
+      ? "rounded-[10px]"
+      : "rounded-t-[10px]";
 
   const handleSearchBarBlur = () => {
     setTimeout(() => {
@@ -68,7 +67,7 @@ const SearchBar = ({
   const handleSearchBarFocus = () => {
     setIsSuggestionVisible(true);
   };
-  console.log(routeDestination);
+
   return (
     <>
       {routeDestination ? (
@@ -126,7 +125,7 @@ const SearchBar = ({
                 value={textEntered}
                 className="w-full focus:border-0"
                 size={20}
-                onFocus={handleSearchBarFocus}
+                onFocusCapture={handleSearchBarFocus}
                 onBlur={handleSearchBarBlur}
               ></input>
 
@@ -135,8 +134,8 @@ const SearchBar = ({
               </button>
             </div>
 
-            {isSuggestionVisible && (
-              <div className={`bg-white rounded-b-[10px] ${bounceStyle}`}>
+            {isSuggestionVisible && !isBouncing && (
+              <div className="bg-white rounded-b-[10px]">
                 <ul>
                   {suggestion.suggestion.length > 0 &&
                     suggestion.suggestion.map((item, index) => {

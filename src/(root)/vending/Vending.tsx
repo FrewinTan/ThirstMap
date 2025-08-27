@@ -118,66 +118,65 @@ const Vending = ({
     activeTabs == 1 ? "Overview" : activeTabs == 3 ? "Edit" : "Image";
 
   return (
-    <div className="w-full h-full z-40 left-0 top-0 absolute">
-      <div
-        className={`fixed inset-0  rounded-t-[20px] bg-white z-30 
+    <div
+      className={`fixed inset-0  rounded-t-[20px] bg-white z-30 
 					${
             dragging
-              ? ""
+              ? "none"
               : "will-change-transform transition-transform duration-200 ease-out"
           } 
 					${position == modalExpanded ? "overflow-y-auto no-scrollbar" : ""}`}
-        style={{
-          transform: `translateY(${position}px)`,
-        }}
-        ref={modalRef}
-        onMouseDown={startDrag}
-        onTouchStart={startDrag}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mt-2 cursor-grab"></div>
+      style={{
+        transform: `translateY(${position}px)`,
+      }}
+      ref={modalRef}
+      onMouseDown={startDrag}
+      onTouchStart={startDrag}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mt-2 cursor-grab"></div>
 
-        <div className="flex flex-row items-center p-3">
-          <div>
-            <h1 className="font-[Inter] font-semibold pl-5">
-              {vendingData.name}
-            </h1>
-            {/** <h2 className="font-[Inter] font-semibold ml-5">4.0 ☆☆☆☆☆ (10)</h2> */}
-          </div>
-
-          <div className="ml-auto bg-gray-200 rounded-full w-[24px] h-[24px] mr-3 flex justify-center items-center">
-            <button onClick={onClose} className="w-[16px] h-[16px] ">
-              <img src={icons.close} />
-            </button>
-          </div>
+      <div className="flex flex-row items-center p-3">
+        <div>
+          <h1 className="font-[Inter] font-semibold pl-5">
+            {vendingData.name}
+          </h1>
+          {/** <h2 className="font-[Inter] font-semibold ml-5">4.0 ☆☆☆☆☆ (10)</h2> */}
         </div>
 
-        <div className="justify-center flex">
-          {Array.isArray(resultData) ? (
-            <img src={firstImage} className="w-[180px] object-cover" />
-          ) : (
-            <img
-              src={images.not_available}
-              className="w-[180px] object-cover rounded-[20px]"
-            ></img>
-          )}
-        </div>
-
-        <div className="justify-evenly flex pt-3">
-          <button
-            className={activeTabs !== 2 ? "border-b-2 border-[#A8C4FF]" : ""}
-            onClick={() => setActiveTabs(1)}
-            disabled={activeTabs == 3 ? true : false}
-          >
-            <p
-              className={`${
-                activeTabs !== 2 ? "text-[#A8C4FF]" : ""
-              } font-[Inter]`}
-            >
-              {header}
-            </p>
+        <div className="ml-auto bg-gray-200 rounded-full w-[24px] h-[24px] mr-3 flex justify-center items-center">
+          <button onClick={onClose} className="w-[16px] h-[16px] ">
+            <img src={icons.close} />
           </button>
-          {/*+ <button
+        </div>
+      </div>
+
+      <div className="justify-center flex">
+        {Array.isArray(resultData) ? (
+          <img src={firstImage} className="w-[180px] object-cover" />
+        ) : (
+          <img
+            src={images.not_available}
+            className="w-[180px] object-cover rounded-[20px]"
+          ></img>
+        )}
+      </div>
+
+      <div className="justify-evenly flex pt-3">
+        <button
+          className={activeTabs !== 2 ? "border-b-2 border-[#A8C4FF]" : ""}
+          onClick={() => setActiveTabs(1)}
+          disabled={activeTabs == 3 ? true : false}
+        >
+          <p
+            className={`${
+              activeTabs !== 2 ? "text-[#A8C4FF]" : ""
+            } font-[Inter]`}
+          >
+            {header}
+          </p>
+        </button>
+        {/*+ <button
 	            className={activeTabs == 2 ? "border-b-2 border-[#A8C4FF]" : ""}
 	            onClick={() => setActiveTabs(2)}
 	          >
@@ -189,52 +188,51 @@ const Vending = ({
 	              Review
 	            </p>
 	          </button> */}
-        </div>
+      </div>
 
-        <hr className="border-[#CBCBCB] h-[2px]"></hr>
+      <hr className="border-[#CBCBCB] h-[2px]"></hr>
 
-        <div>
-          {activeTabs == 1 && (
-            <Overview
-              type={vendingData.type}
-              location={vendingData.location}
-              opening_hour={vendingData.opening_hour}
-              payment_type={vendingData.payment_type}
-              editFormPressed={(item) => item && setActiveTabs(3)}
-              imageFormPressed={(item) => item && setActiveTabs(4)}
-              images={resultData}
-            />
-          )}
-          {/** activeTabs == 2 && <Review /> */}
-          {activeTabs == 3 && (
-            <EditForm backButtonPressed={(item) => item && setActiveTabs(1)} />
-          )}
-          {activeTabs == 4 && (
-            <AddImages
-              backButtonPressed={(item) => item && setActiveTabs(1)}
-              name={vendingData.location}
-            />
-          )}
-        </div>
-
-        {activeTabs !== 3 && activeTabs !== 4 ? (
-          <button
-            className="bg-[#A8C4FF] rounded-[20px] w-3/5 h-[48px] flex flex-row justify-center items-center mx-auto mt-5"
-            onClick={() => {
-              if (!locationToBeUsed) {
-                alert("Please enter your location");
-              } else {
-                goButtonPressed(vendingLocation);
-              }
-            }}
-          >
-            <img src={icons.location} className="w-[20px] h-[20px]" />
-            <h2>Go</h2>
-          </button>
-        ) : (
-          <></>
+      <div>
+        {activeTabs == 1 && (
+          <Overview
+            type={vendingData.type}
+            location={vendingData.location}
+            opening_hour={vendingData.opening_hour}
+            payment_type={vendingData.payment_type}
+            editFormPressed={(item) => item && setActiveTabs(3)}
+            imageFormPressed={(item) => item && setActiveTabs(4)}
+            images={resultData}
+          />
+        )}
+        {/** activeTabs == 2 && <Review /> */}
+        {activeTabs == 3 && (
+          <EditForm backButtonPressed={(item) => item && setActiveTabs(1)} />
+        )}
+        {activeTabs == 4 && (
+          <AddImages
+            backButtonPressed={(item) => item && setActiveTabs(1)}
+            name={vendingData.location}
+          />
         )}
       </div>
+
+      {activeTabs !== 3 && activeTabs !== 4 ? (
+        <button
+          className="bg-[#A8C4FF] rounded-[20px] w-3/5 h-[48px] flex flex-row justify-center items-center mx-auto mt-5"
+          onClick={() => {
+            if (!locationToBeUsed) {
+              alert("Please enter your location");
+            } else {
+              goButtonPressed(vendingLocation);
+            }
+          }}
+        >
+          <img src={icons.location} className="w-[20px] h-[20px]" />
+          <h2>Go</h2>
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -6,7 +6,7 @@ export default function GeoCoder({
   searchBarPressed,
 }: {
   enteredLocation: string | google.maps.LatLngLiteral;
-  searchBarPressed: boolean;
+  searchBarPressed: number;
 }) {
   const map = useMap();
   const [markerPos, setMarkerPos] = useState<google.maps.LatLng | null>();
@@ -25,9 +25,9 @@ export default function GeoCoder({
         setMarkerPos(location);
       } else {
         console.log("Geocoding failed:", status);
-				alert("Unable to find location");
+				alert("Unable to Find Location")
       }
     });
-  }, [searchBarPressed, map]);
+  }, [searchBarPressed]);
   return <AdvancedMarker position={markerPos}></AdvancedMarker>;
 }
