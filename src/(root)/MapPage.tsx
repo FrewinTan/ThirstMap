@@ -19,28 +19,13 @@ const MapPage = () => {
   const map_id = import.meta.env.VITE_map_id;
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
-  // Get user permission
-  const [locationError, setLocationError] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (navigator.permissions) {
-      navigator.permissions.query({ name: "geolocation" }).then((result) => {
-        if (result.state === "denied") {
-          setLocationError(1); // previously denied
-        } else if (result.state === "granted") {
-          setLocationError(0);
-        } else {
-          setLocationError(null); // prompt will show
-        }
-      });
-    }
-  }, []);
-  // Get user location through GPS
+  const [locationError, setLocationError] = useState<number | null>(null); // Get user permission
+  console.log(locationError);
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
-  >("");
+  >(""); // Get user location through GPS
 
-  const getUserLocation = () => {
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
@@ -58,12 +43,13 @@ const MapPage = () => {
             setLocationError(2);
           }
           console.log(error);
-        }
+        },
+        { enableHighAccuracy: true }
       );
     } else {
       console.log("Geolocation is not supported by your browser");
     }
-  };
+  }, []);
 
   const [nearestButtonPressed, setNearestButtonPressed] = useState(false);
   const [toggleVendingPage, setToggleVendingPage] = useState(false);
@@ -199,7 +185,6 @@ const MapPage = () => {
 
         <Nearest
           onClick={() => {
-            getUserLocation();
             setNearestButtonPressed(!nearestButtonPressed);
             bounce();
           }}
