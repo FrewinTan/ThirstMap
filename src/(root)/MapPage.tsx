@@ -20,10 +20,11 @@ const MapPage = () => {
   if (!google_api || !map_id) throw new Error("Google maps key Error");
 
   const [locationError, setLocationError] = useState<number | null>(null); // Get user permission
-  console.log(locationError);
+
+  // Get user location through GPS
   const [userLocation, setUserLocation] = useState<
     google.maps.LatLngLiteral | string
-  >(""); // Get user location through GPS
+  >("");
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -58,6 +59,9 @@ const MapPage = () => {
   const [routeDestination, setRouteDestination] = useState<string>("");
   const [clearEverything, setClearEverything] = useState(false);
   const [toggleCrowdSource, setToggleCrowdSource] = useState(false);
+  const [placeholder, setPlaceholder] = useState<
+    google.maps.LatLngLiteral | string
+  >("");
 
   // useState for Origin and Destination for Directions
   const [destination, setDestination] =
@@ -65,16 +69,21 @@ const MapPage = () => {
 
   // Bounce Animation
   const [isBouncing, setIsBouncing] = useState(false);
+
+  useEffect(() => {
+    setPlaceholder(userLocation);
+  }, [searchBarPressed]);
+
   const bounce = () => {
-    if (userLocation) return;
-    if (locationError === 1) {
-      setIsBouncing(true);
-      setTimeout(() => setIsBouncing(false), 3500);
-    }
+    if (placeholder !== "") return;
+    setIsBouncing(true);
+    const timer = setTimeout(() => {
+      setIsBouncing(false);
+    }, 2500);
+    return () => clearTimeout(timer);
   };
 
-  // useState for Marker
-  const [markerIndex, setMarkerIndex] = useState<number>(0);
+  const [markerIndex, setMarkerIndex] = useState<number>(0); // useState for Marker
 
   // Get Vending Data from neondb
   const [vendingData, setVendingData] = useState<VendingDataType[]>([]);
