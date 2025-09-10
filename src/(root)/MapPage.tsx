@@ -59,9 +59,6 @@ const MapPage = () => {
   const [routeDestination, setRouteDestination] = useState<string>("");
   const [clearEverything, setClearEverything] = useState(false);
   const [toggleCrowdSource, setToggleCrowdSource] = useState(false);
-  const [placeholder, setPlaceholder] = useState<
-    google.maps.LatLngLiteral | string
-  >("");
 
   // useState for Origin and Destination for Directions
   const [destination, setDestination] =
@@ -70,12 +67,8 @@ const MapPage = () => {
   // Bounce Animation
   const [isBouncing, setIsBouncing] = useState(false);
 
-  useEffect(() => {
-    setPlaceholder(userLocation);
-  }, [searchBarPressed]);
-
   const bounce = () => {
-    if (placeholder !== "") return;
+    if (userLocation !== "") return;
     setIsBouncing(true);
     const timer = setTimeout(() => {
       setIsBouncing(false);

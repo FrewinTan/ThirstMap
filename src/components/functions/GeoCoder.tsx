@@ -25,7 +25,7 @@ export default function GeoCoder({
         setMarkerPos(location);
       } else {
         console.log("Geocoding failed:", status);
-        alert("Unable to Find Location");
+        alert("Please input an appropriate location");
       }
     });
   }, [searchBarPressed]);

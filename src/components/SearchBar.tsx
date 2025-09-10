@@ -54,9 +54,9 @@ const SearchBar = ({
   }
 
   const roundedBorder =
-    !isSuggestionVisible && textEntered == ""
-      ? "rounded-[10px]"
-      : "rounded-t-[10px]";
+    suggestion.suggestion.length != 0 && isSuggestionVisible
+      ? "rounded-t-[10px]"
+      : "rounded-[10px]";
 
   const handleSearchBarBlur = () => {
     setTimeout(() => {
@@ -76,21 +76,21 @@ const SearchBar = ({
             <div className="flex flex-row items-center p-3">
               <img
                 src={icons.circle}
-                className="w-[12px] h-[12px] fill-black"
+                className="w-[16px] h-[16px] fill-black"
               />
-              <h1 className="font-[Inter] text-[12px] pl-3">
+              <h1 className="font-normal text-[16px] pl-3">
                 {capitalizeFirstLetter(textEntered)}
               </h1>
             </div>
 
-            <hr className="w-10/12 mx-auto"></hr>
+            <hr className="w-11/12 mx-auto"></hr>
 
             <div className="flex flex-row items-center p-3">
               <img
                 src={icons.location}
-                className="w-[12px] h-[12px] fill-black"
+                className="w-[16px] h-[16px] fill-black"
               />
-              <h1 className="font-[Inter] text-[12px] pl-3">
+              <h1 className="font-normal text-[16px] pl-3">
                 {routeDestination}
               </h1>
             </div>
@@ -123,7 +123,7 @@ const SearchBar = ({
                 }}
                 placeholder="Enter your location"
                 value={textEntered}
-                className="w-full focus:border-0"
+                className="w-full focus:border-0 pl-1"
                 size={20}
                 onFocusCapture={handleSearchBarFocus}
                 onBlur={handleSearchBarBlur}

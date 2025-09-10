@@ -28,6 +28,7 @@ import chef_hat from "../assets/icons/chef_hat.png";
 import cloud_upload from "../assets/icons/cloud_upload.png"
 import image from "../assets/icons/image.png"
 import close_white from "../assets/icons/close_white.png"
+import orange from "../assets/icons/orange.png"
 
 import test from "../assets/images/test.png";
 import default_maptype from "../assets/images/default_maptype.png";
@@ -65,7 +66,8 @@ export const icons = {
   chef_hat,
 	cloud_upload,
 	image,
-	close_white
+	close_white,
+	orange
 };
 
 export const images = {
